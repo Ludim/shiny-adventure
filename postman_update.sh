@@ -23,3 +23,26 @@ if [ -d "/opt/Postman" ]; then
     sudo mv Postman /opt/
 fi
 
+ICON_LOCATION=`find /opt/Postman -name 'icon.png' 2>/dev/null`
+echo "Update icon location, path" $ICON_LOCATION
+
+if [ -z "$ICON_LOCATION" ]; then
+    echo "Icon cannot be found"
+    echo "Try to create icon lauch"
+    exit 1
+fi
+
+if [ ! -f '~/.local/share/applications' ]; then
+    mkdir -p ~/.local/share/applications
+fi
+
+cat > ~/.local/share/applications/postman.desktop <<EOF
+[Desktop Entry]
+Encoding=UTF-8
+Name=Postman
+Exec=postman
+Icon=$ICON_LOCATION
+Terminal=false
+Type=Application
+Categories=Development;
+EOF
